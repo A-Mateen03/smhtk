@@ -1,4 +1,4 @@
-### DEPRECATED → Repo not maintained since 2020
+### ARCHIVED → Repo not maintained since 2020
 
 ---
 
