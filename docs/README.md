@@ -1,4 +1,4 @@
-For any questions, please join the [discord server](https://discord.com/invite/3r6mkjv6AP) or contact [rdWei](https://www.instagram.com/rdWe_i/).
+For any questions, please join the [discord server](https://discord.com/invite/3r6mkjv6AP) or contact [SamueleAmato](https://www.instagram.com/rdWe_i/).
 
 _I'll only respond to those proposals that are a good match for my schedule and interests, thank you._
 
@@ -14,15 +14,15 @@ _I'll only respond to those proposals that are a good match for my schedule and 
  
 
  <h6><p align="center">
-    perform different types of <a href="https://github.com/rdWei/SocialMediaHackingToolkit/blob/main/cmd/supported-attack.txt">attacks</a> on many <a href="https://github.com/rdWei/SocialMediaHackingToolkit/blob/main/cmd/supported-social.txt">social media</a>
+    perform different types of <a href="https://github.com/SamueleAmato/SocialMediaHackingToolkit/blob/main/cmd/supported-attack.txt">attacks</a> on many <a href="https://github.com/SamueleAmato/SocialMediaHackingToolkit/blob/main/cmd/supported-social.txt">social media</a>
 </p></h6>
 </p>
 <p align="center">
   <img src="https://img.shields.io/badge/release-v0.3.3-141449" alt=""/>
   <img src="https://img.shields.io/badge/written in-python | php-141449" alt=""/>
-  <img src="https://img.shields.io/badge/author-rdWei-141449" alt=""/>
+  <img src="https://img.shields.io/badge/author-SamueleAmato-141449" alt=""/>
  <h6><p align="center" style="color:yellow">
-    <i>please read at least the section regarding <a href="https://github.com/rdWei/SocialMediaHackingToolkit#Trustability">trustability</a>
+    <i>please read at least the section regarding <a href="https://github.com/SamueleAmato/SocialMediaHackingToolkit#Trustability">trustability</a>
 </i></a>
 </p></h6>
 
@@ -62,7 +62,7 @@ this section explains how to install and run the tool on:<br> ubuntu, arch, void
 <h5><p align="center">Ubuntu / Debian</p></h3>
 
 ```
-git clone https://github.com/rdWei/SocialMediaHackingToolkit
+git clone https://github.com/SamueleAmato/SocialMediaHackingToolkit
 
 cd SocialMediaHackingToolkit
 
@@ -87,7 +87,7 @@ chmod +x linux.sh
 
 
 ```
-git clone https://github.com/rdWei/SocialMediaHackingToolkit
+git clone https://github.com/SamueleAmato/SocialMediaHackingToolkit
 
 cd SocialMediaHackingToolkit
 
@@ -112,7 +112,7 @@ chmod +x linux.sh
 
 
 ```
-git clone https://github.com/rdWei/SocialMediaHackingToolkit
+git clone https://github.com/SamueleAmato/SocialMediaHackingToolkit
 
 cd SocialMediaHackingToolkit
 
@@ -137,7 +137,7 @@ chmod +x linux.sh
 
 
 ```
-git clone https://github.com/rdWei/SocialMediaHackingToolkit
+git clone https://github.com/SamueleAmato/SocialMediaHackingToolkit
 
 cd SocialMediaHackingToolkit
 
@@ -162,7 +162,7 @@ chmod +x linux.sh
 
 
 ```
-git clone https://github.com/rdWei/SocialMediaHackingToolkit
+git clone https://github.com/SamueleAmato/SocialMediaHackingToolkit
 
 cd SocialMediaHackingToolkit
 
@@ -322,7 +322,7 @@ you can verify that the program works by testing it on **your profile**, open th
   <img src="images/issues.gif" alt=""/>
 </p>
 
-If you have encountered an issue with SocialMediaHackingToolkit or would like to suggest an improvement, please report it in our [Issues section](https://github.com/rdWei/SocialMediaHackingToolkit/issues).<br> Please provide as much detail as possible about the issue or suggestion so that we can resolve or implement it as soon as possible.<br> <b>Thank you for your contribution!</b>
+If you have encountered an issue with SocialMediaHackingToolkit or would like to suggest an improvement, please report it in our [Issues section](https://github.com/SamueleAmato/SocialMediaHackingToolkit/issues).<br> Please provide as much detail as possible about the issue or suggestion so that we can resolve or implement it as soon as possible.<br> <b>Thank you for your contribution!</b>
 
 <br>
 
@@ -330,5 +330,5 @@ If you have encountered an issue with SocialMediaHackingToolkit or would like to
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=rdWei/socialmediahackingtoolkit&type=Date)](https://star-history.com/#rdWei/socialmediahackingtoolkit&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=SamueleAmato/socialmediahackingtoolkit&type=Date)](https://star-history.com/#SamueleAmato/socialmediahackingtoolkit&Date)
 
