@@ -121,7 +121,19 @@ def get_wordlist():
   os.system("clear")
   console.print(ascii_art, justify="center", style="#B0DAFF bold")
   console.print(":: wordlist ::", justify="center", style="#B0DAFF")
-  wordlist = input("\n\n"+color.GREEN+" [choice]"+color.END+" 〉")
+
+  # List available wordlists
+  wordlist_dir = "../wordlist"
+  try:
+    available_wordlists = [f for f in os.listdir(wordlist_dir) if f.endswith('.txt')]
+    if available_wordlists:
+      console.print("\n:: Available wordlists ::", justify="center", style="#CYAN")
+      for idx, wl in enumerate(available_wordlists, 1):
+        console.print(f"{idx}. {wl}", justify="center", style="#GREEN")
+  except:
+    pass
+
+  wordlist = input("\n\n"+color.GREEN+" [wordlist filename]"+color.END+" 〉")
   return wordlist
 
 def insta_bruteforce(username, wordlist, vpn):
